@@ -30,7 +30,11 @@ interface GetMenuCategoryResponseDto {
   size: string;
 }
 
+type Category = 'Food' | 'Drink' | 'Dessert';
+
 export default function C_StateEffect() {
+  const [query, setQuery] = useState<Category>('Food');
+
   const [category, setCategory] = useState<string>("");
   const [results, setResults] = useState<GetMenuCategoryResponseDto[]>([]);
 
@@ -55,12 +59,46 @@ export default function C_StateEffect() {
       }
     }
   }
+  //! 자습) 버튼으로 필터링 구현하기
+  //! 매개변수 query 변경
+  const fetchMenuButtonData = async (category: string) => {
+    if(category.trim()) {
+      try {
+        const response = await axios.get(
+          `${DOMAIN}/${MENU_API}/search/category`,
+          //! params 값 변경
+          { params: { category }}
+        );
 
+        const data = response.data.data;
+
+        setResults(data);
+        
+      } catch(error) {
+        console.error("Error fetching data: ", error);
+      }
+    }
+  }
   useEffect(() => {
     fetchMenuData(category);
-  }, [category])
+  }, [category]);
+
+  useEffect(() => {
+    fetchMenuButtonData(query);
+  }, [query]);
+
+
+  const handleButtonClick = (e:React.MouseEvent<HTMLButtonElement>) => {
+    const selectedCategory = e.currentTarget.value as Category;
+    setQuery(selectedCategory);
+  }
   return (
     <div>
+      <div>
+        <button value='Food' onClick={handleButtonClick}>Food</button>
+        <button value='Drink' onClick={handleButtonClick}>Drink</button>
+        <button value='Dessert' onClick={handleButtonClick}>Dessert</button>
+      </div>
       <input 
       type="text" 
       value={category}
@@ -68,6 +106,8 @@ export default function C_StateEffect() {
       placeholder='Enter Category'
       required
       />
+
+      
       <ul>
         {results.map((result, index) => (
           <li key={index}>{result.name}</li>
