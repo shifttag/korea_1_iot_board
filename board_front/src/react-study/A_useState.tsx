@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { StringLiteral } from 'typescript';
 
 //! useState
 // 1. 함수형 컴포넌트
@@ -31,8 +32,20 @@ import React, { useState } from 'react'
 // const a = 0;
 // const name = "홍길동";
 
+interface loginState {
+  email: string;
+  password: string;
+}
+
 export default function A_useState() {
   const[count, setCount] = useState<number>(0);
+
+  const[loginState, setLoginState] = useState<loginState>({
+    email: '',
+    password: ''
+  });
+
+  const {email, password} = loginState;
   
   // REACT의 체계
 // : TSX 문법 체계
@@ -54,10 +67,54 @@ const handleIncrementButton = () => {
   setCount(prevCount => prevCount + 1);
 }
 
+// 여러 input창을 관리하는 이벤트 핸들러
+const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const {name, value} = e.target;
+
+  setLoginState((prevState) => ({
+    // 이메일 input창만 이벤트 발생 시 이전의 이메일, 패스워드를 모두 가져와
+    ...prevState,
+    
+    // 현재 변화가 일어나고 있는 name(email)에 vaule(입력값)를 넣어 업데이트
+
+    // password는 이전의 값을 그대로 가지고 있음
+    [name]: value
+  }));
+}
+
   return (
     <div>
       <p>Count: {count}</p>
       <button onClick={handleIncrementButton}>증가 버튼</button>
+
+      <hr />
+      <form>
+        <div>
+          <label htmlFor="email">이메일</label>
+          <input 
+            type="email"
+            id='email'
+            name='email'
+            value={email}
+            onChange={handleInputChange}
+            placeholder='이메일을 입력하세요'
+            required
+            />
+        </div>
+        <div>
+          <label htmlFor="password">패스워드</label>
+          <input 
+            type="password"
+            id='password'
+            name='password'
+            value={password}
+            onChange={handleInputChange}
+            placeholder='패스워드를 입력하세요'
+            required
+            />
+        </div>
+        <button type='submit'>로그인</button>
+      </form>
     </div>
   )
 }
