@@ -50,7 +50,7 @@ export default function Container() {
       { pathname !== AUTH_PATH && <Footer />}
       {/* { pathname === AUTH_PATH || <Footer />} */}
       
-      <Footer />
+      {/* <Footer /> */}
     </>
   )
 }

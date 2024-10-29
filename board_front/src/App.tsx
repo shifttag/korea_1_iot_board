@@ -22,6 +22,7 @@ function App() {
             Route 컴포넌트의 index 속성
             : 상위 컴포넌트의 경로로 출력 (기본 자식 라우트) 
            */}
+           {/* <Route index element- {<Main> />} /> */}
           <Route path={MAIN_PATH} element = {<Main />} />
 
           {/* 로그인 + 회원가입 화면 */}
