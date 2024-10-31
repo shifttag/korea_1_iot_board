@@ -60,7 +60,7 @@ export default function SignUp() {
     if (isValidation) {
       try {
         // 서버에 회원가입 요청 (POST 메서드)
-        const response = await axios.post(`${MAIN_URL}}/auth/signUp`, userInfo);
+        const response = await axios.post(`${MAIN_URL}/auth/signUp`, userInfo);
 
         if(response.data){
           navigate('/');

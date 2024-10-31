@@ -2,6 +2,9 @@ import React from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { AUTH_PATH } from '../../constants';
 import Footer from '../Footer';
+import Header from '../Header';
+import useThemeStore from '../../stores/theme.store';
+import { Box } from '@mui/material';
 
 /*
 ! Outlet 컴포넌트
@@ -21,12 +24,27 @@ export default function Container() {
 
   const { pathname } = useLocation();
 
+  const { theme } = useThemeStore(); 
+
   return (
     <>
-      {/* <Header /> */}
+      <Header />
+      <hr />
       
       {/* 자식 컴포넌트가 해당 위치에서 렌더링 */}
+      <Box
+        sx={{flex: 1,
+          minHeight: '80vh',
+          backgroundColor: theme === 'light' ? 'white' : 'grey.900',
+          color: theme === 'light' ? 'black' : 'white',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 2
+        }}>
       <Outlet />
+      </Box>
 
       {/* 현재 경로가 AUTH_PATH (로그인, 회원가입)이 아니면 Footer 표시 : 논리 연산자 */}
       
@@ -47,6 +65,7 @@ export default function Container() {
 
         보통 논리연산자 사용하는 경우는 !== 에 && 연산자를 주로 사용
          */}
+         <hr />
       { pathname !== AUTH_PATH && <Footer />}
       {/* { pathname === AUTH_PATH || <Footer />} */}
       
