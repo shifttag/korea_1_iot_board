@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useAuthStore from "../../stores/auth.store";
 import { Link } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
@@ -11,10 +11,18 @@ export default function Header() {
   const { isAuthenticated, user, logout } = useAuthStore();
 
   //* 사용자의 토큰을 관리하는 쿠키 *//
-  const [, setCookies] = useCookies(["token"]);
+  const [cookies, setCookies] = useCookies(["token"]);
 
   //* 전체 테마의 상태를 전역 상태 관리 *//
   const { theme, toggleTheme } = useThemeStore();
+  
+  //* Effect *//
+  //# 렌더링 시 토큰 값 확인하여 인증 상태 수정 //
+  useEffect(() => {
+    if(!cookies.token) {
+      logout();
+    }
+  },[cookies])
 
   //# Event Handler #//
   //* event handler: 로그아웃 버튼 클릭 시 이벤트 핸들러 *//
@@ -22,6 +30,7 @@ export default function Header() {
     setCookies("token", "", { expires: new Date() });
     logout();
   };
+
 
   return (
     <div>
