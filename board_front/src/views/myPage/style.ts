@@ -26,7 +26,6 @@ export const imgBox = css`
   align-items: center;
   width: 178px;
   height: 100%;
-
 `;
 
 export const profileImg = css`
@@ -60,7 +59,7 @@ export const emailBox = css`
   align-items: center;
   margin-bottom: 10px;
 
-  & > div:nth-last-of-type(1) {
+  & > div:nth-of-type(1) {
     margin: 0px 10px 0px 0px;
   }
 `;
