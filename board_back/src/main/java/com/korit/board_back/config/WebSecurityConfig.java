@@ -41,6 +41,8 @@ public class WebSecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/api/v1/static/**"),
                         new AntPathRequestMatcher("/api/v1/menus/**"),
                         new AntPathRequestMatcher("/api/v1/books/**"),
+                        new AntPathRequestMatcher("/api/v1/todos/**"),
+                        new AntPathRequestMatcher("/api/v1/**"),
                         new AntPathRequestMatcher("/api/test/books/**"),
                         new AntPathRequestMatcher("/api/students/**"),
                         new AntPathRequestMatcher("/api/books/**")
@@ -66,7 +68,9 @@ public class WebSecurityConfig {
                 .cors(withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                new AntPathRequestMatcher("/api/v1/auth/**")
+                                new AntPathRequestMatcher("/api/v1/auth/**"),
+                                new AntPathRequestMatcher("/api/v1/todo/**"),
+                                new AntPathRequestMatcher("/api/v1/todos/**")
                         )
                         .permitAll()
                         .anyRequest().authenticated())
